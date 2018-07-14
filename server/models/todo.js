@@ -19,9 +19,3 @@ const todoSchema = new gs.Schema({
 var Todo = gs.model('Todo', todoSchema);
 
 module.exports = {Todo};
-
-
-
-// var minStringLength = (obj, validator, min) => {
-//     return obj.length >= min;
-// };

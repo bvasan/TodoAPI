@@ -10,7 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "@google-cloud/datastore": "^1.4.1",
-    "aws-sdk": "^2.274.1",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "gstore-node": "^4.2.2"
