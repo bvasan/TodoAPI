@@ -5,7 +5,7 @@ var {gs} = require('./db/datastore');
 var {User} = require('./models/user');
 var {Todo} = require('./models/todo');
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 var app = express();
 
