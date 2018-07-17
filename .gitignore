@@ -1,3 +1,6 @@
 node_modules
-sandbox
+playground/ddb-additem.js
+playground/ddb-batchget.js
+playground/ddb-key.json
+playground/dynamodb-sample.js
 .DS_Store
