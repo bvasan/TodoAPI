@@ -1,7 +1,7 @@
 const Datastore = require('@google-cloud/datastore');
 
 // For explicit authentication using key file...
-const ds = new Datastore({keyFilename: './sandbox/ddb-key.json'});
+const ds = new Datastore({keyFilename: './ddb-key.json'});
 //For implicit authentication (e.g. Google AppEngine)
 //const ds = new Datastore();
 
