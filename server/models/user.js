@@ -8,6 +8,7 @@ const userSchema = new gs.Schema({
     validate: 'isEmail'
   }
 });
+userSchema.queries('list', {readAll: true});
 
 var User = gs.model('User', userSchema);
 

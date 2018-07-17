@@ -16,6 +16,8 @@ const todoSchema = new gs.Schema({
     default: null
   }
 });
+todoSchema.queries('list', {readAll: true});
+
 var Todo = gs.model('Todo', todoSchema);
 
 module.exports = {Todo};
