@@ -14,7 +14,8 @@
     "@google-cloud/datastore": "^1.4.1",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
-    "gstore-node": "^4.2.2"
+    "gstore-node": "^4.2.2",
+    "lodash": "^4.17.10"
   },
   "devDependencies": {
     "expect": "^1.20.2",
