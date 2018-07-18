@@ -1,6 +1,7 @@
 const gs = require('gstore-node')();
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
+const bcrypt = require('bcryptjs');
 
 const userSchema = new gs.Schema({
   email: {
@@ -26,16 +27,19 @@ const userSchema = new gs.Schema({
   }]
 });
 
-function hashPassword() {
+function hashPassword () {
   const user = this;
-  const password = this.password;
 
   if (!password) {
     return Promise.resolve();
   }
   return new Promise((resolve, reject) => {
-    var hash = jwt.sign({id: user.password.toString()}, 'abc123').toString();
-    user.password = hash
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(user.password, salt, (err, hash) => {
+          user.password = hash;
+      });
+    });
+
     return resolve();
   });
 };
