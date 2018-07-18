@@ -33,7 +33,6 @@ function hashPassword() {
   if (!password) {
     return Promise.resolve();
   }
-
   return new Promise((resolve, reject) => {
     var hash = jwt.sign({id: user.password.toString()}, 'abc123').toString();
     user.password = hash
@@ -48,7 +47,7 @@ userSchema.methods.toJSON = function () {
   return _.pick(user, ['entityKey.id', 'email']);
 };
 
-userSchema.methods.generateAuthToken = function() {
+userSchema.methods.generateAuthToken = function () {
   var user = this;
   var access = 'auth';
   var token = jwt.sign({id: user.entityKey.id.toString(), access}, 'abc123').toString();
@@ -57,6 +56,22 @@ userSchema.methods.generateAuthToken = function() {
 
   return user.save().then(() => {
     return token;
+  });
+};
+
+userSchema.statics.findByToken = function (token) {
+  var User = this;
+  var decoded;
+
+  try {
+    decoded = jwt.verify(token, 'abc123');
+  } catch(e) {
+    return Promise.reject();
+  };
+  return User.findOne({
+    // 'entityKey.id': decoded.id,
+    'tokens.token': token,
+    'tokens.access': 'auth'
   });
 };
 
