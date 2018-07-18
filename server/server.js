@@ -1,3 +1,5 @@
+require('./config/config');
+
 const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -6,7 +8,8 @@ var {gs} = require('./db/datastore');
 var {User} = require('./models/user');
 var {Todo} = require('./models/todo');
 
-const port = process.env.PORT || 3000;
+
+const port = process.env.PORT;
 
 var app = express();
 
@@ -82,10 +85,20 @@ app.patch('/todos/:id', (req,res) => {
   }).catch((e) => {
     res.status(400).send();
   });
-
-
 });
 
+app.post('/users', (req, res) => {
+  var body = _.pick(req.body,['email', 'password']);
+  var user = new User(body);
+
+  user.save().then(() => {
+    return user.generateAuthToken();
+  }).then((token) => {
+    res.header('x-auth', token).send(user);
+  }).catch((e) => {
+     res.status(400).send(e);
+  });
+});
 
 app.listen(port, () => {
     console.log(`started on port ${port}`);
