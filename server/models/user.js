@@ -29,13 +29,14 @@ const userSchema = new gs.Schema({
 
 function hashPassword () {
   const user = this;
+  password = user.password;
 
   if (!password) {
     return Promise.resolve();
   }
   return new Promise((resolve, reject) => {
     bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(user.password, salt, (err, hash) => {
+      bcrypt.hash(password, salt, (err, hash) => {
           user.password = hash;
       });
     });
@@ -78,6 +79,29 @@ userSchema.statics.findByToken = function (token) {
     'tokens.access': 'auth'
   });
 };
+
+userSchema.statics.findByCredentials = function (email, password) {
+  var User = this;
+
+  return User.findOne({
+    email: email
+  }).then((user) => {
+    if (!user) {
+      return Promise.reject();
+    }
+
+    return new Promise((resolve, reject) => {
+      bcrypt.compare(password, user.password, (err, res) => {
+        if (res) {
+           resolve(user);
+        } else {
+          reject();
+        }
+      });
+    });
+  });
+};
+
 
 var User = gs.model('User', userSchema);
 
